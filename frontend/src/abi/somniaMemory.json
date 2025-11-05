@@ -1,0 +1,5 @@
+[
+  {"inputs":[{"internalType":"string","name":"npcName","type":"string"},{"internalType":"string","name":"memoryText","type":"string"}],"name":"createMemory","outputs":[],"stateMutability":"nonpayable","type":"function"},
+  {"inputs":[{"internalType":"address","name":"player","type":"address"}],"name":"getMemoriesForPlayer","outputs":[{"components":[{"internalType":"address","name":"player","type":"address"},{"internalType":"string","name":"npcName","type":"string"},{"internalType":"string","name":"memoryText","type":"string"},{"internalType":"uint256","name":"timestamp","type":"uint256"}],"internalType":"struct SomniaMemory.Memory[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},
+  {"inputs":[],"name":"getMemoriesCount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
+]
