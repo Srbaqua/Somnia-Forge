@@ -1,124 +1,187 @@
-🌌 Somnia Chronicles — The On-Chain AI Memory World
+<div align="center">
 
-Somnia Chronicles is a Web3 AI RPG interaction experience where players can speak with AI-driven NPCs — and those NPCs remember past conversations using on-chain storage.
-Your words literally shape the world, permanently written to the Somnia Blockchain.
+# 🌌 Somnia Chronicles — Memory World
 
-This project was built for the Somnia AI Hackathon under the Gaming Track.
+### **AI NPCs with blockchain-backed long-term memory.**
 
-🎮 Core Idea
+<img src="https://github.com/Srbaqua/somnia-chronicles/assets/banner-placeholder" width="700"/>
 
-In most games, NPCs forget conversations instantly.
-In Somnia Chronicles:
+<br/>
 
-NPCs remember what you say
+[![Made with Solidity](https://img.shields.io/badge/Solidity-0.8.18-363636?logo=solidity)](#)
+[![React](https://img.shields.io/badge/Frontend-React-61dafb?logo=react&logoColor=000)](#)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-3C873A?logo=node.js&logoColor=white)](#)
+[![Somnia Network](https://img.shields.io/badge/Blockchain-Somnia-blueviolet)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
 
-These memories are stored on-chain
+</div>
 
-Future NPC responses adapt based on memories
+---
 
-Each player builds their own narrative history
+## 🎮 Introduction
 
-This turns NPCs into evolving story companions — not static dialogue bots.
+**Somnia Chronicles** is an AI-powered RPG world where NPCs **remember your conversations**, permanently stored on-chain using the Somnia Blockchain.
 
-✨ Features
-Feature	Description
-🧠 AI NPC Dialogues	NPC replies are generated using an LLM with personality & emotion.
-🔗 On-Chain Memories	Every meaningful dialogue generates a memory stored in a smart contract.
-👤 Player-Unique Storylines	Each wallet address has its own memory arc.
-💬 Clean Chat UI	Simple chat interface for real-time play.
-🌐 Works on Somnia Testnet	Live contract deployment ready for verification.
-🧱 Tech Stack
-Layer	Technology
-Smart Contract	Solidity (Hardhat)
-Blockchain	Somnia Testnet
-AI Model	OpenAI / Gemini (configurable)
-Backend	Node.js + Express
-Frontend	React + Vite + Ethers v6
-UI Styling	(Ready for Tailwind / Framer Motion enhancement)
-🏗 Architecture
-Player → Frontend Chat UI
-       → Backend (dialogue request)
-       → LLM generates NPC reply + memory snippet
-       → Smart Contract stores memory
-       → NPC references past memories to respond meaningfully
+Your companion NPC **Lyra**:
+- Talks naturally using AI
+- Remembers what you said in previous sessions
+- Adjusts personality and responses over time
+- Stores key memory fragments on-chain, tied to your wallet
 
-🚀 Local Setup
-1) Clone Repo
-git clone (https://github.com/Srbaqua/Somnia-Forge/new/master)
-cd somnia-chronicles
+This creates **persistent, evolving character relationships** — not just chat.
 
-2) Install Dependencies
-npm install
-cd backend && npm install
-cd ../frontend && npm install
+---
 
-🔐 Environment Variables
+## ✨ Features
 
-Create .env files in both project root and backend:
+| Feature | Description |
+|--------|-------------|
+| 🧠 AI NPC Dialogues | Dynamic conversation powered by OpenAI / Gemini |
+| 🧾 Permanent Memories | Player interactions stored in Somnia blockchain contract |
+| 💼 Wallet Identity | Each player's memory belongs to their wallet |
+| 💬 Web-based Chat Interface | Clean UI built in React + Vite |
+| ⚙️ Smart Contract Logic | `SomniaMemory.sol` stores and retrieves memories |
 
-.env (root for contract deployment)
-SOMNIA_RPC_URL=https://dream-rpc.somnia.network/
-DEPLOYER_PRIVATE_KEY=0xYourPrivateKeyHere
+---
 
-/backend/.env
-SOMNIA_RPC_URL=https://dream-rpc.somnia.network/
-DEPLOYER_PRIVATE_KEY=0xYourPrivateKeyHere
-OPENAI_API_KEY=your-ai-key-here
-CONTRACT_ADDR=0xYourDeployedContractAddress
+## 🏗️ Architecture
 
-/frontend/.env
-VITE_CONTRACT_ADDR=0xYourDeployedContractAddress
-VITE_BACKEND_URL=http://localhost:8080
+Player ↔ Frontend UI ↔ Backend AI Service ↔ Smart Contract ↔ Somnia Network
 
-🧾 Deploy Smart Contract
+yaml
+Copy code
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Tools |
+|------|------|
+| **Frontend** | React, Vite, Ethers.js, TailwindCSS |
+| **Backend** | Node.js, Express, Axios |
+| **Blockchain** | Somnia Testnet, Hardhat, Solidity |
+| **AI** | OpenAI / Gemini Large Language Models |
+
+---
+
+## 📦 Project Structure
+
+somnia-chronicles/
+
+├── contracts/
+
+│ └── SomniaMemory.sol
+
+├── scripts/
+
+│ └── deploy.js
+
+├── backend/
+
+│ ├── index.js
+
+│ ├── aiPrompts.js
+
+│ └── .env
+
+├── frontend/
+
+│ ├── src/
+
+│ │ ├── components/
+
+│ │ │ └── ChatBox.jsx
+
+│ │ ├── abi/
+
+│ │ │ └── somniaMemory.json
+
+│ │ └── App.jsx
+
+└── hardhat.config.js
+
+
+
+---
+
+## ⚙️ Setup & Run
+
+### 1) Clone Repository
+```bash
+git clone https://github.com/Srbaqua/somnia-chronicles.git
+cd somnia-chronicles/somnia-chronicles
+2) Deploy Contract to Somnia Testnet
+arduino
+Copy code
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network somnia
+Copy the deployed contract address.
 
+3) Configure Backend
+Create backend/.env:
 
-Copy the contract address printed to console → paste into .env.
+ini
+Copy code
+SOMNIA_RPC_URL=https://dream-rpc.somnia.network/
+DEPLOYER_PRIVATE_KEY=0xYOUR_KEY
+OPENAI_API_KEY=YOUR_AI_KEY
+CONTRACT_ADDR=0xDEPLOYED_CONTRACT
+Run backend:
 
-▶️ Run Application
-Start backend:
+bash
+Copy code
 cd backend
+npm install
 node index.js
+4) Configure Frontend
+Create frontend/.env:
 
-Start frontend:
+ini
+Copy code
+VITE_CONTRACT_ADDR=0xDEPLOYED_CONTRACT
+VITE_BACKEND_URL=http://localhost:8080
+Run UI:
+
+bash
+Copy code
 cd frontend
+npm install
 npm run dev
+Open browser → http://localhost:5173
 
+🧪 Demo Flow
+Connect MetaMask wallet
 
-Open:
+Say something to Lyra
 
-http://localhost:5173
+AI generates reply + memory
 
-📦 Smart Contract
+Confirm transaction in wallet
 
-SomniaMemory.sol
+Memory is stored on-chain ✅
 
-createMemory(string npcName, string memoryText)
+Next time → Lyra remembers you 🧠
 
-getMemoriesForPlayer(address player)
+🚀 Future Improvements
+Multiple NPC personalities
 
-🎯 Future Enhancements (Open for Expansion)
+3D world interaction (Three.js)
 
-Multi-NPC world with persistent relationships
+Player-to-player shared memory space
 
-Player inventory + AI quest generation
+Memory NFTs to trade stories
 
-Marketplace for shared stories / lore NFTs
+🤝 Contributing
+PRs welcome.
+Ideas welcome.
+Conversations with Lyra encouraged.
 
-World memory graph visualization
+📜 License
+MIT — free to fork, remix, and build upon.
 
-Fully animated neon cyberpunk UI
+<div align="center">
+“Memories fade. Blockchains don’t.”
 
-🤝 Contribution
+✨ Somnia Chronicles — 2025
 
-Contributions welcome — open issues, propose features, or fork and build!
-
-🏆 Hackathon Notes
-
-Built for Somnia AI Hackathon Gaming Track
-
-Focused on narrative-driven gameplay + AI memory
-
-Demonstrates real agentic behavior persistence on-chain
+</div> ```
