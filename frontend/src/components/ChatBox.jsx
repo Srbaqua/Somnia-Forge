@@ -36,13 +36,11 @@ export default function ChatBox({ provider, account, npcName = "Lyra" }) {
         playerMessage: userText
       }, { timeout: 20000 });
 
-      // Expect backend: { reply: "...", memory: "..." }
       const data = resp.data || {};
       if (typeof data.reply === "string") {
         replyText = data.reply;
         memorySnippet = data.memory || "";
       } else if (data.reply && typeof data.reply === "object") {
-        // If backend passed nested reply object (safety)
         replyText = data.reply.reply || JSON.stringify(data.reply);
         memorySnippet = data.reply.memory || data.memory || "";
       } else {
@@ -50,7 +48,7 @@ export default function ChatBox({ provider, account, npcName = "Lyra" }) {
       }
     } catch (err) {
       console.error("generateReply error", err);
-      pushMsg("system", "AI generation failed");
+      pushMsg("system", `AI generation failed: ${err?.message || String(err)}`);
       setSending(false);
       return;
     }
@@ -71,22 +69,41 @@ export default function ChatBox({ provider, account, npcName = "Lyra" }) {
     }
 
     try {
-      // provider prop expected to be ethers.BrowserProvider (from App)
       const signer = provider?.getSigner ? await provider.getSigner() : null;
-      if (!signer) throw new Error("No signer available");
+      if (!signer) throw new Error("No signer available from provider");
+
+      // debug: signer address and network
+      try {
+        const signerAddr = await signer.getAddress();
+        pushMsg("system", `Using signer: ${signerAddr}`);
+      } catch (e) {
+        pushMsg("system", `Unable to read signer address: ${e.message || e}`);
+      }
 
       const contractAddr = import.meta.env.VITE_CONTRACT_ADDR;
-      if (!contractAddr) throw new Error("VITE_CONTRACT_ADDR not set");
+      if (!contractAddr) throw new Error("VITE_CONTRACT_ADDR not set in frontend environment");
+
+      pushMsg("system", `Contract: ${contractAddr}`);
+
+      // Optional: show network chain id
+      try {
+        const network = await provider.getNetwork();
+        pushMsg("system", `Network: ${network?.name || network?.chainId || "unknown"}`);
+      } catch (e) {
+        // ignore
+      }
 
       const contract = new ethers.Contract(contractAddr, ABI, signer);
       pushMsg("system", "Submitting memory transaction...");
       const tx = await contract.createMemory(npcName, sanitizedMemory);
       pushMsg("system", `Tx submitted: ${tx.hash}`);
-      await tx.wait();
-      pushMsg("system", `Memory stored on-chain (${tx.hash})`);
+      const receipt = await tx.wait();
+      pushMsg("system", `Memory stored on-chain (confirmed)`);
     } catch (err) {
       console.error("on-chain memory error", err);
-      pushMsg("system", "Failed to record memory on-chain");
+      // Show error details in UI for debugging (trim)
+      const msg = (err?.message || String(err)).toString().slice(0, 300);
+      pushMsg("system", `Failed to record memory on-chain: ${msg}`);
     } finally {
       setSending(false);
     }

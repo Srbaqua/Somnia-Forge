@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ChatBox from "./components/ChatBox";
-import { ethers } from "ethers";
+import { BrowserProvider } from "ethers";
 
 export default function App() {
   const [provider, setProvider] = useState(null);
   const [account, setAccount] = useState(null);
 
   useEffect(() => {
-    if (window.ethereum) {
-      const prov = new ethers.BrowserProvider(window.ethereum);
-      setProvider(prov);
-    }
+     if (window.ethereum) {
+    const prov = new BrowserProvider(window.ethereum);
+    setProvider(prov);
+  }
   }, []);
 
   async function connect() {
